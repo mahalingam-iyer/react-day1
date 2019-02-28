@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Label from '../Label';
+import themeProvider from '../ThemeContainer';
 
 class TextInput extends React.Component {
   createButtonStyleFromTheme = (theme) => ({
@@ -10,8 +11,8 @@ class TextInput extends React.Component {
   });
 
   render() {
-    // let buttonStyle = (this.props.theme)?this.createButtonStyleFromTheme(this.props.theme):{};
-    let buttonStyle = (this.context.theme)?this.createButtonStyleFromTheme(this.context.theme):{};
+    let buttonStyle = (this.props.theme)?this.createButtonStyleFromTheme(this.props.theme):{};
+    // let buttonStyle = (this.context.theme)?this.createButtonStyleFromTheme(this.context.theme):{};
     let { htmlId, name, label, type = "text", required = false, onChange, placeholder, value, error, children } = this.props
     return (
       <div style={{ marginBottom: 16 }}>
@@ -66,8 +67,8 @@ TextInput.propTypes = {
   theme: PropTypes.object
 };
 
-TextInput.contextTypes = {
-    theme: PropTypes.object
-}
+// TextInput.contextTypes = {
+//     theme: PropTypes.object
+// }
 
-export default TextInput;
+export default themeProvider(TextInput);
