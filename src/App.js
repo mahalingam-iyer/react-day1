@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import RegistrationForm from './components/RegistrationForm';
 import UserList from './components/UserList'
+import PropTypes from 'prop-types'
+
 let themes = {
   'darkTheme': {
     backgroundColor: "green",
@@ -24,6 +26,15 @@ class App extends Component {
       password: 'localAdmin@!@#'
     }],
     theme: 'lightTheme'
+  }
+  static childContextTypes = {
+    theme: PropTypes.object
+  }
+  getChildContext(){
+    return {
+      //whatever here will be passed to children as context
+      theme: themes[this.state.theme]
+    }
   }
   changeTheme=(e)=> {
     this.setState({ theme:e.target.value});

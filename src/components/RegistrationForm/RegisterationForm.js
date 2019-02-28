@@ -60,11 +60,11 @@ class RegistrationForm extends React.Component {
     const {email, password} = this.state.user;
 
     return (
+      //theme={this.props.theme}
       submitted ?
       <h2>{this.props.confirmationMessage}</h2> :
       <div>
         <TextInput
-          theme={this.props.theme}
           htmlId="registration-form-email"
           name="email"
           onChange={this.onChange}
@@ -98,7 +98,7 @@ RegistrationForm.propTypes = {
 
   /** Minimum password length */
   minPasswordLength: PropTypes.number,
-  theme: PropTypes.shape({})
+  theme: PropTypes.object
 }
 
 RegistrationForm.defaultProps = {
