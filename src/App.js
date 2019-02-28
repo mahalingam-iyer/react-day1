@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import RegistrationForm from './components/RegistrationForm';
+import UserList from './components/UserList'
 
 class App extends Component {
   onSubmit = (user) => {
@@ -8,7 +9,12 @@ class App extends Component {
   }
 
   render() {
-    return <RegistrationForm onSubmit={this.onSubmit} />
+    return (
+      <div>
+        <RegistrationForm onSubmit={this.onSubmit} />
+        <UserList></UserList>
+      </div>
+    );
   }
 }
 
