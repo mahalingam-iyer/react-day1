@@ -1,20 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class UserList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            users: []
-        };
-    }
-    componentDidMount() {
-        fetch('https://my-json-server.typicode.com/mahalingam-iyer/demoapi/users')
-            .then(response => response.json())
-            .then(json => this.setState({ users: json }));
-    }
     getUserList() {
         return (
-            (this.state.users.length) ? (this.state.users.map((u,i) => {
+            (this.props.users.length) ? (this.props.users.map((u, i) => {
                 return (<tr key={i}>
                     <td>{u.username}</td>
                     <td>{u.password}</td>
@@ -39,4 +29,10 @@ class UserList extends React.Component {
     }
 }
 
+UserList.propTypes = {
+   users: PropTypes.arrayOf(PropTypes.shape({
+     username: PropTypes.string.isRequired,
+     password: PropTypes.string.isRequired
+   })).isRequired
+}
 export default UserList;
