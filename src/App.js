@@ -3,6 +3,8 @@ import './App.css';
 import RegistrationForm from './components/RegistrationForm';
 import UserList from './components/UserList'
 import PropTypes from 'prop-types'
+import Store from './store/configureStore'
+
 
 let themes = {
   'darkTheme': {
@@ -18,13 +20,6 @@ let themes = {
 }
 class App extends Component {
   state = {
-    users: [{
-      username: 'localUser',
-      password: 'local@!@#'
-    }, {
-      username: 'localAdmin',
-      password: 'localAdmin@!@#'
-    }],
     theme: 'lightTheme'
   }
   static childContextTypes = {
@@ -40,10 +35,16 @@ class App extends Component {
     this.setState({ theme:e.target.value});
   }
   componentDidMount() {
+    //get store state
+    Store.subscribe(()=>{
+      console.log('store',Store.getState());
+    });
     fetch('https://my-json-server.typicode.com/mahalingam-iyer/demoapi/users')
       .then(response => response.json())
       .then(json => {
-        this.setState({ users: this.state.users.concat(json) });
+        let action = {type:'ADD_USER_LIST',data:json}
+        Store.dispatch(action)
+        // this.setState({ users: this.state.users.concat(json) });
       });
   }
   onSubmit = (user) => {
@@ -59,7 +60,7 @@ class App extends Component {
           <option value="darkTheme">Dark</option>
         </select>
         <RegistrationForm theme={themes[this.state.theme]} onSubmit={this.onSubmit} />
-        <UserList users={this.state.users}></UserList>
+        {/*<UserList users={this.state.users}></UserList>*/}
       </div>
     );
   }
