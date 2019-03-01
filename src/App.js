@@ -5,7 +5,7 @@ import UserList from './components/UserList'
 import PropTypes from 'prop-types'
 
 import {connect} from 'react-redux'
-import addUsersAction from './actions/addUser'
+import {fetchUserList, addUserAction} from './actions/addUser'
 
 let themes = {
   'darkTheme': {
@@ -40,10 +40,11 @@ class App extends Component {
     // Store.subscribe(()=>{
     //   console.log('store',Store.getState());
     // });
+    this.props.fetchUserList();
     fetch('https://my-json-server.typicode.com/mahalingam-iyer/demoapi/users')
       .then(response => response.json())
       .then(json => {
-        // this.props.addUsers();
+        this.props.addUsers(json);
         // let action = {type:'ADD_USER_LIST',data:json}
         // Store.dispatch(action)
         // this.setState({ users: this.state.users.concat(json) });
@@ -74,8 +75,9 @@ const mapStateToProps = store=>{
   return {userList: store.userList}
 }
 
-const mapDispatchToProps = dispatch=>({
-  addUsers:dispatch(addUsersAction)
+const mapDispatchToProps = (dispatch,ownProps)=>({
+  addUsers:(data)=>dispatch(addUserAction(data)),
+  fetchUserList:()=>dispatch(fetchUserList())
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(App);
