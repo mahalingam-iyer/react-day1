@@ -3,8 +3,9 @@ import './App.css';
 import RegistrationForm from './components/RegistrationForm';
 import UserList from './components/UserList'
 import PropTypes from 'prop-types'
-import Store from './store/configureStore'
 
+import {connect} from 'react-redux'
+import addUsersAction from './actions/addUser'
 
 let themes = {
   'darkTheme': {
@@ -36,14 +37,15 @@ class App extends Component {
   }
   componentDidMount() {
     //get store state
-    Store.subscribe(()=>{
-      console.log('store',Store.getState());
-    });
+    // Store.subscribe(()=>{
+    //   console.log('store',Store.getState());
+    // });
     fetch('https://my-json-server.typicode.com/mahalingam-iyer/demoapi/users')
       .then(response => response.json())
       .then(json => {
-        let action = {type:'ADD_USER_LIST',data:json}
-        Store.dispatch(action)
+        // this.props.addUsers();
+        // let action = {type:'ADD_USER_LIST',data:json}
+        // Store.dispatch(action)
         // this.setState({ users: this.state.users.concat(json) });
       });
   }
@@ -52,6 +54,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props.userList);
     return (
       <div>
         Select Theme:
@@ -60,10 +63,19 @@ class App extends Component {
           <option value="darkTheme">Dark</option>
         </select>
         <RegistrationForm theme={themes[this.state.theme]} onSubmit={this.onSubmit} />
-        {/*<UserList users={this.state.users}></UserList>*/}
+        <UserList users={this.props.userList}></UserList>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = store=>{
+  console.log(store.userList);
+  return {userList: store.userList}
+}
+
+const mapDispatchToProps = dispatch=>({
+  addUsers:dispatch(addUsersAction)
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
