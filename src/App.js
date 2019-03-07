@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 
 import {connect} from 'react-redux'
 import {fetchUserList, addUserAction} from './actions/addUser'
+import Store from './store/configureStore'
+
 
 let themes = {
   'darkTheme': {
@@ -40,15 +42,20 @@ class App extends Component {
     // Store.subscribe(()=>{
     //   console.log('store',Store.getState());
     // });
-    this.props.fetchUserList();
-    fetch('https://my-json-server.typicode.com/mahalingam-iyer/demoapi/users')
-      .then(response => response.json())
-      .then(json => {
-        this.props.addUsers(json);
-        // let action = {type:'ADD_USER_LIST',data:json}
-        // Store.dispatch(action)
-        // this.setState({ users: this.state.users.concat(json) });
-      });
+    // this.props.fetchUserList();
+    // fetch('https://my-json-server.typicode.com/mahalingam-iyer/demoapi/users')
+    //   .then(response => response.json())
+    //   .then(json => {
+    //     this.props.addUsers(json);
+    //     // let action = {type:'ADD_USER_LIST',data:json}
+    //     // Store.dispatch(action)
+    //     // this.setState({ users: this.state.users.concat(json) });
+    //   });
+    Store.dispatch({type: 'USER_FETCH_REQUESTED', payload: {userId:1202}})
+    Store.dispatch({type: 'USER_FETCH_REQUESTED', payload: {userId:1202}})
+    Store.dispatch({type: 'USER_FETCH_REQUESTED', payload: {userId:1202}})
+    Store.dispatch({type: 'USER_FETCH_REQUESTED', payload: {userId:1202}})
+    Store.dispatch({type: 'USER_FETCH_REQUESTED', payload: {userId:1202}})
   }
   onSubmit = (user) => {
     console.log(user);

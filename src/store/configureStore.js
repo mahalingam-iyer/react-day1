@@ -1,5 +1,7 @@
 import {createStore, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
+import createSagaMiddleware from 'redux-saga'
+import mySaga from '../sagas/saga'
 
 //default store
 let defaultstate = {
@@ -12,12 +14,14 @@ let defaultstate = {
     }]
 };
 
+const sagaMiddleware = createSagaMiddleware()
+
 //reducer
 //action = {type:'',data:{}}
 let userReducer = (state=defaultstate,action)=>{
+    let currentUsers = state.userList;
     switch(action.type){
         case 'ADD_USER_LIST':
-            let currentUsers = state.userList;
             return {...state, userList:currentUsers.concat(action.data)} //return new state
         case 'REQUESTED':
             console.log('API request is sent');
@@ -25,6 +29,10 @@ let userReducer = (state=defaultstate,action)=>{
         case 'COMPLETED':
             console.log('API request is completed');
             return state;
+        case 'USER_FETCH_SUCCEEDED':
+            console.log('got user response');
+            console.log(action);
+            return {...state, userList:currentUsers.concat(action.user)}
         default:
             return state;
     }
@@ -32,6 +40,7 @@ let userReducer = (state=defaultstate,action)=>{
 
 //create store
 //added middleware called for every event
-let store = createStore(userReducer,applyMiddleware(thunk));
+let store = createStore(userReducer,applyMiddleware(sagaMiddleware,thunk));
+sagaMiddleware.run(mySaga);
 
 export default store;
