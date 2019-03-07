@@ -21,7 +21,7 @@ let themes = {
     color: "blue"
   }
 }
-class App extends Component {
+export class App extends Component {
   state = {
     theme: 'lightTheme'
   }
